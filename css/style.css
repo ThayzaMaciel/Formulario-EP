@@ -10,6 +10,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   padding: 20px;
 }
 
@@ -25,6 +26,21 @@ form {
   flex-direction: column;
 }
 
+h1 {
+  font-size: 26px;
+  line-height: 1.8;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  width: 100%;
+  background-color: var(--cor-principal);
+  background-image: url('https://eeepsam.com.br/wp-content/themes/eeepsam/assets/images/elements/Shape9.png');
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  border-radius: 20px;
+  color: var(--cor-texto);
+
+}
 h2 {
   text-align: center;
   margin-bottom: 20px;
@@ -118,3 +134,26 @@ button:hover {
   margin-top: 15px;
   text-align: center;
 }
+
+.Logo-SEDUC {
+    width: 65%;
+    max-width: 600px;
+    min-height: 150px;
+    align-items: center;
+    margin-bottom: 40px;
+    margin-right: 10px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    justify-content: space-around;
+}
+
+.Logo-SEDUC h1 {
+    flex: 1;
+    padding: 20px;
+    font-size: 25px;
+    line-height: 1.5;
+}
+
