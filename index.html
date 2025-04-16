@@ -3,31 +3,40 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
       rel="stylesheet"
     />
-    <link rel="icon" href="./files/LOGO.png">
+    <link rel="icon" href="./files/LOGO.png" />
     <link rel="stylesheet" href="./css/properties.css" />
     <link rel="stylesheet" href="./css/style.css" />
     <title>Feira das Profissões</title>
-
   </head>
-  <body style="background-image: url(https://eeepsam.com.br/wp-content/themes/eeepsam/assets/images/elements/Shape9.png);">
+  <body
+    style="
+      background-image: url(https://eeepsam.com.br/wp-content/themes/eeepsam/assets/images/elements/Shape9.png);
+    "
+  >
     <div class="Logo-SEDUC">
-        <h1>EEEP DR. SALOMÃO ALVES DE MOURA</h1>
-        <img src="./files/LOGO-SEDUC.png" alt="">
+      <h1>EEEP DR. SALOMÃO ALVES DE MOURA</h1>
+      <img src="./files/LOGO-SEDUC.png" alt="" />
     </div>
     <form id="formInfor">
       <h2>Feira Das Profissões - EEEP SAM</h2>
-      <div id="statusSala" class="mensagem" style="display: none;"></div>
+      <div id="statusSala" class="mensagem" style="display: none"></div>
 
       <div class="campo">
         <label for="name"><strong>Nome do Aluno(a)</strong></label>
-        <input type="text" id="name" name="name" placeholder="Nome completo" required />
+        <input
+          type="text"
+          id="name"
+          name="name"
+          placeholder="Nome completo"
+          required
+        />
       </div>
 
       <div class="campo">
@@ -35,40 +44,40 @@
 
         <div class="campo-input">
           <input
-            type="checkbox"
+            type="radio"
             id="ADM"
             name="turma"
-            value="ADM"
+            value="Administração"
             class="custom-checkbox"
           />
           <label for="ADM">Administração</label>
         </div>
         <div class="campo-input">
           <input
-            type="checkbox"
+            type="radio"
             id="DS"
             name="turma"
-            value="DS"
+            value="Desen. de Sistemas"
             class="custom-checkbox"
           />
           <label for="DS">Desenvolvimento de Sistemas</label>
         </div>
         <div class="campo-input">
           <input
-            type="checkbox"
+            type="radio"
             id="EDF"
             name="turma"
-            value="EDF"
+            value="Edificações"
             class="custom-checkbox"
           />
           <label for="EDF">Edificação</label>
         </div>
         <div class="campo-input">
           <input
-            type="checkbox"
+            type="radio"
             id="MASSO"
             name="turma"
-            value="MASSO"
+            value="Massoterapia"
             class="custom-checkbox"
           />
           <label for="MASSO">Massoterapia</label>
@@ -80,10 +89,10 @@
 
         <div class="campo-input">
           <input
-            type="checkbox"
+            type="radio"
             id="3ano"
             name="serie"
-            value="3ano"
+            value="3º ano"
             class="custom-checkbox"
           />
           <label for="3ano">3°ano</label>
@@ -91,10 +100,10 @@
 
         <div class="campo-input">
           <input
-            type="checkbox"
+            type="radio"
             id="2ano"
             name="serie"
-            value="2ano"
+            value="2º ano"
             class="custom-checkbox"
           />
           <label for="2ano">2°ano</label>
@@ -102,10 +111,10 @@
 
         <div class="campo-input">
           <input
-            type="checkbox"
+            type="radio"
             id="1ano"
             name="serie"
-            value="1ano"
+            value="1º ano"
             class="custom-checkbox"
           />
           <label for="1ano">1°ano</label>
@@ -115,23 +124,18 @@
       <div class="campo">
         <label for="Sala"><strong>Sala que deseja participar:</strong></label>
         <div class="campo-input">
-          <input
-            type="checkbox"
-            id="salaDS"
-            name="sala"
-            value="salaDS"
-            class="custom-checkbox"
-            onchange= "atualizarContadores()"
-          />
-          <label for="salaDS">Desenvolvimento de Sistemas - Programação (<span id="contador-sala-1">0</span>/35)</label>
+          <label for="sala">Escolha uma área:</label>
+          <select id="sala" name="sala">
+            <option value="">Selecionar</option>
+          </select>
         </div>
         <div id="Contador"></div>
       </div>
 
       <button type="submit"><strong>Enviar</strong></button>
     </form>
-    <script src="./js/script.js"></script>
-    <script src="./js/status.js"></script>
-    
+    <script type="module" src="./js/script.js"></script>
+    <script type="module" src="./js/status.js"></script>
+    <script type="module" src="./js/domManipulation.js" ></script>
   </body>
 </html>
