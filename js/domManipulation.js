@@ -21,8 +21,16 @@ function appendOptions(){
     salas.forEach((sala)=> {
         const option = document.createElement("option");
         option.value = sala.nome;
+        option.id = sala.nome
         option.textContent = `${sala.nome} - ${sala.vagasOcupadas}/${sala.vagas}`;
         select.appendChild(option);
+    })
+}
+export function updateOptions(salas){
+    salas.forEach((sala)=> {
+        const option = document.getElementById(sala.nome)
+        if(sala.vagas <= sala.vagasOcupadas) option.disabled = true
+        return option.textContent = `${sala.nome} - ${sala.vagasOcupadas}/${sala.vagas}`;
     })
 }
 
@@ -30,7 +38,11 @@ document.addEventListener("DOMContentLoaded", ()=> {
     
 })
 
-setTimeout(()=> {
+setInterval(()=> {
     salas = filterSalaLength(salas);
-    appendOptions();
-}, 2000)
+    updateOptions(salas)
+}, 1000)
+setTimeout(() => {
+  salas = filterSalaLength(salas);
+  appendOptions();
+}, 2000);

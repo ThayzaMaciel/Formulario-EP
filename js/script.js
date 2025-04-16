@@ -1,4 +1,4 @@
-import { salas } from "./domManipulation.js";
+import { salas, updateOptions } from "./domManipulation.js";
 
 const form = document.getElementById("formInfor");
 
@@ -110,8 +110,9 @@ function formatData(values) {
 async function loopAtualizacao() {
   await getData(); // Executa imediatamente
   setInterval(async () => {
-    await getData(); // Executa a cada 10 segundos
-  }, 10000);
+    await getData();
+    updateOptions() // Executa a cada 10 segundos
+  }, 1000);
 }
 
 // Chama isso quando o DOM estiver pronto:
