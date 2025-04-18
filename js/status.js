@@ -1,4 +1,4 @@
-function MessageSucess(texto, tipo = "sucesso") {
+export function MessageSucess(texto, tipo = "sucesso") {
     const statusDiv = document.getElementById('statusSala');
 
     statusDiv.innerText = texto;
@@ -15,7 +15,7 @@ function MessageSucess(texto, tipo = "sucesso") {
 
 }
 
-function MessageErro(texto, tipo = "error") {
+export function MessageError(texto, tipo = "error") {
     const statusDiv = document.getElementById('statusSala');
 
     statusDiv.innerText = texto;
@@ -30,4 +30,13 @@ function MessageErro(texto, tipo = "error") {
          }, 500);
     }, 3000)
 
+}
+
+export function showEmailError(isValid) {
+  const spanError = document.getElementById("email-error");
+  if (!spanError) {
+    console.error("Elemento com ID 'email-error' não encontrado.");
+    return;
+  }
+  spanError.style.display = isValid ? "none" : "block";
 }

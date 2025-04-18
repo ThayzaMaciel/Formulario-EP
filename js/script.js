@@ -1,10 +1,17 @@
 import { salas, updateOptions } from "./domManipulation.js";
+import { MessageError, MessageSucess, showEmailError } from "./status.js";
 
 const form = document.getElementById("formInfor");
 
 let alunoSala = {};
-export let conteudoPlanilha = []
+export let conteudoPlanilha = [];
 
+// Função que verifica o dominio do email
+function CheckEmail(email) {
+  const [localPart, domain] = email.split("@");
+  if (!domain || domain != "aluno.ce.gov.br") return false;
+  else return true;
+}
 
 export function filterSalaLength(salas) {
   const salasComVagasOcupadas = salas.map((sala) => {
@@ -18,7 +25,6 @@ export function filterSalaLength(salas) {
 
   // Agora, você deve retornar ou fazer algo com salasComVagasOcupadas, como armazená-lo
   return salasComVagasOcupadas;
-
 }
 
 function atualizarContadores() {
@@ -40,31 +46,40 @@ form.addEventListener("submit", async (e) => {
   formData.forEach((value, key) => {
     data[key] = value;
   });
+  form.reset();
   console.log(data);
-  form.reset()
-  
-  const aluno = data.name;
-  const sala = data.sala;
+
+  const checkEmail = CheckEmail(data.email);
+  showEmailError(checkEmail);
+  if (!checkEmail) {
+    return;
+  }
 
   // Verifica se o aluno já está cadastrado na sala
   const alunoJaCadastrado = conteudoPlanilha.some(
-    (item) => item.name === aluno && item.sala === sala
-  )
+    (item) =>
+      item.name === data.name &&
+      item.serie === data.serie &&
+      item.turma === data.turma
+  );
   if (alunoJaCadastrado) {
-    MediaError("Aluno já cadastrado nesta sala!");
-    return
+    MessageError("Aluno já registrado em uma das salas!");
+    return;
   }
 
-  if (!alunoSala[sala]) {
-    alunoSala[sala] = [];
+  if (!alunoSala[data.sala]) {
+    alunoSala[data.sala] = [];
   }
-  
-  const AlunoNaSala = conteudoPlanilha.filter((item) => item.sala == data.sala).length
+  // Verifica se a sala já tem 35 alunos
+  const AlunoNaSala = conteudoPlanilha.filter(
+    (item) => item.sala == data.sala
+  ).length;
 
-  if (alunoSala[sala].length < 35) {
+  // se a sala tiver menos de 35 alunos, adiciona o aluno
+  if (alunoSala[data.sala].length < 35) {
     try {
       const response = await fetch(
-        "https://script.google.com/macros/s/AKfycbxYkpKfbgJWpfvd8vsq8AN0E854b0OW8Ffbge8NX68rsd377X5sAn8UwrGfZd5A8YPapA/exec",
+        "https://script.google.com/macros/s/AKfycbzbolJqHSF7RmbhweybwEwcB08_tY2Ta1Lo9CRPvEk3nqf2WnTFHe08C3Mzm7WVv87YTA/exec",
         {
           method: "POST",
           mode: "no-cors",
@@ -73,22 +88,22 @@ form.addEventListener("submit", async (e) => {
           },
           body: JSON.stringify(data),
         }
-      ) 
+      );
       MessageSucess("Aluno(a) cadastrado com sucesso!");
     } catch (err) {
       MediaError("Erro de conexão");
     }
-}
+  }
 
-  alunoSala[sala].push(data.name)
-  atualizarContadores()
-  })
+  alunoSala[data.sala].push(data.name);
+  atualizarContadores();
+});
 
 async function getData() {
   const SPREADSHEET_ID = "1Fv-eEOvS1Pd3xb73WHmS5ARwN3rgliBxGFmNAQVcBXg";
   const API_KEY = "AIzaSyDtLBcFDLEuprUFz6K-nTLiqIf1e9ErLpE";
   const RANGE = "Sheet1!A:D";
-    //URL de conexão com a planilha para o GET usando a API KEY
+  //URL de conexão com a planilha para o GET usando a API KEY
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE}?key=${API_KEY}`;
 
   try {
@@ -96,8 +111,7 @@ async function getData() {
     const data = await res.json();
 
     const formatted = formatData(data.values);
-    conteudoPlanilha = formatted
-    console.log(formatted); // Aqui você terá os objetos prontos
+    conteudoPlanilha = formatted; // Aqui você terá os objetos prontos
   } catch (err) {
     console.log("Erro ao buscar dados:", err);
   }
@@ -117,8 +131,8 @@ async function loopAtualizacao() {
   await getData(); // Executa imediatamente
   setInterval(async () => {
     await getData();
-    const salasComVagasOcupadas = filterSalaLength(salas)
-    updateOptions(salasComVagasOcupadas) // Executa a cada 10 segundos
+    const salasComVagasOcupadas = filterSalaLength(salas);
+    updateOptions(salasComVagasOcupadas); // Executa a cada 10 segundos
   }, 1000);
 }
 
