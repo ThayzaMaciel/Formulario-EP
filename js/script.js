@@ -18,6 +18,7 @@ export function filterSalaLength(salas) {
 
   // Agora, você deve retornar ou fazer algo com salasComVagasOcupadas, como armazená-lo
   return salasComVagasOcupadas;
+
 }
 
 function atualizarContadores() {
@@ -40,43 +41,48 @@ form.addEventListener("submit", async (e) => {
     data[key] = value;
   });
   console.log(data);
-
-  try {
-    const response = await fetch(
-      "https://script.google.com/macros/s/AKfycbxYkpKfbgJWpfvd8vsq8AN0E854b0OW8Ffbge8NX68rsd377X5sAn8UwrGfZd5A8YPapA/exec",
-      {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }
-    );
-
-    const result = await response.json();
-  } catch (err) {
-    MediaError("Erro de conexão");
-  }
-
+  form.reset()
+  
   const aluno = data.name;
   const sala = data.sala;
+
+  // Verifica se o aluno já está cadastrado na sala
+  const alunoJaCadastrado = conteudoPlanilha.some(
+    (item) => item.name === aluno && item.sala === sala
+  )
+  if (alunoJaCadastrado) {
+    MediaError("Aluno já cadastrado nesta sala!");
+    return
+  }
 
   if (!alunoSala[sala]) {
     alunoSala[sala] = [];
   }
+  
+  const AlunoNaSala = conteudoPlanilha.filter((item) => item.sala == data.sala).length
 
   if (alunoSala[sala].length < 35) {
-    alunoSala[sala].push(aluno);
-    MessageSucess(
-      `Aluno(a) ${aluno} cadastrado na sala com sucesso na sala: ${sala}`
-    );
-  } else {
-    MessageErro(
-      `Sala cheia! impossivel cadastrar aluno(a) ${aluno} na sala ${sala}`
-    );
-  }
-});
+    try {
+      const response = await fetch(
+        "https://script.google.com/macros/s/AKfycbxYkpKfbgJWpfvd8vsq8AN0E854b0OW8Ffbge8NX68rsd377X5sAn8UwrGfZd5A8YPapA/exec",
+        {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      ) 
+      MessageSucess("Aluno(a) cadastrado com sucesso!");
+    } catch (err) {
+      MediaError("Erro de conexão");
+    }
+}
+
+  alunoSala[sala].push(data.name)
+  atualizarContadores()
+  })
 
 async function getData() {
   const SPREADSHEET_ID = "1Fv-eEOvS1Pd3xb73WHmS5ARwN3rgliBxGFmNAQVcBXg";
@@ -111,7 +117,8 @@ async function loopAtualizacao() {
   await getData(); // Executa imediatamente
   setInterval(async () => {
     await getData();
-    updateOptions() // Executa a cada 10 segundos
+    const salasComVagasOcupadas = filterSalaLength(salas)
+    updateOptions(salasComVagasOcupadas) // Executa a cada 10 segundos
   }, 1000);
 }
 
