@@ -12,7 +12,6 @@ export function MessageSucess(texto, tipo = "sucesso") {
             statusDiv.style.opacity = '1'
          }, 500);
     }, 3000)
-
 }
 
 export function MessageError(texto, tipo = "error") {
