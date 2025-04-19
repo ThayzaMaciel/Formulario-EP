@@ -17,12 +17,6 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // src/script.js
-var script_exports = {};
-__export(script_exports, {
-  conteudoPlanilha: () => conteudoPlanilha,
-  filterSalaLength: () => filterSalaLength
-});
-module.exports = __toCommonJS(script_exports);
 
 // src/domManipulation.js
 var salas = [
@@ -140,7 +134,6 @@ form.addEventListener("submit", async (e) => {
     data[key] = value;
   });
   form.reset();
-  console.log(data);
   const checkEmail = CheckEmail(data.email);
   showEmailError(checkEmail);
   if (!checkEmail) {
