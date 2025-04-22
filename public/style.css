@@ -7,7 +7,6 @@
     --cor-destaque: #ffca28;
     --cor-destaque-hover: #edb50d;
 }
-
 * {
   margin: 0;
   padding: 0;
@@ -148,6 +147,12 @@ input[type="text"], input[type="email"] {
   flex-wrap: wrap;
 }
 .campo .email-error {
+  color: red;
+  font-size: smaller;
+  display: none;
+}
+
+.campo .nameError {
   color: red;
   font-size: smaller;
   display: none;

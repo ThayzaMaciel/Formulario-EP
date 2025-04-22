@@ -3,8 +3,8 @@ var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
+  for (var name2 in all)
+    __defProp(target, name2, { get: all[name2], enumerable: true });
 };
 var __copyProps = (to, from, except, desc) => {
   if (from && typeof from === "object" || typeof from === "function") {
@@ -17,6 +17,12 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // src/script.js
+var script_exports = {};
+__export(script_exports, {
+  conteudoPlanilha: () => conteudoPlanilha,
+  filterSalaLength: () => filterSalaLength
+});
+module.exports = __toCommonJS(script_exports);
 
 // src/domManipulation.js
 var salas = [
@@ -97,15 +103,30 @@ function showEmailError(isValid) {
   }
   spanError.style.display = isValid ? "none" : "block";
 }
+function showNameError(isValid) {
+  const spanError = document.getElementById("name-error");
+  if (!spanError) {
+    console.error("Elemento com ID 'name-error' n\xE3o encontrado.");
+    return;
+  }
+  spanError.style.display = isValid ? "none" : "block";
+}
 
 // src/script.js
 var form = document.getElementById("formInfor");
+var name = document.getElementById("name");
+var botao = document.getElementById("botao");
 var alunoSala = {};
 var conteudoPlanilha = [];
 function CheckEmail(email) {
   const [localPart, domain] = email.split("@");
   if (!domain || domain != "aluno.ce.gov.br") return false;
   else return true;
+}
+function CheckName() {
+  const palavras = name.value.trim().split(/\s+/);
+  if (palavras.length <= 2) return false;
+  return true;
 }
 function filterSalaLength(salas2) {
   const salasComVagasOcupadas = salas2.map((sala) => {
@@ -126,6 +147,12 @@ function atualizarContadores() {
     }
   }
 }
+name.addEventListener("input", () => {
+  let palavras = name.value.trim().split(/\s+/);
+  if (palavras.length <= 2) {
+    MessageError("Coloque seu nome completo.");
+  }
+});
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   const formData = new FormData(form);
@@ -133,17 +160,22 @@ form.addEventListener("submit", async (e) => {
   formData.forEach((value, key) => {
     data[key] = value;
   });
-  form.reset();
+  console.log(data);
   const checkEmail = CheckEmail(data.email);
   showEmailError(checkEmail);
   if (!checkEmail) {
+    return;
+  }
+  const checkName = CheckName(data.name);
+  showNameError(checkName);
+  if (!checkName) {
     return;
   }
   const alunoJaCadastrado = conteudoPlanilha.some(
     (item) => item.name === data.name && item.serie === data.serie && item.turma === data.turma
   );
   if (alunoJaCadastrado) {
-    MessageError("Aluno j\xE1 registrado em uma das salas!");
+    MessageError("Aluno j\xE1 registrado em uma das salas.");
     return;
   }
   if (!alunoSala[data.sala]) {
@@ -165,7 +197,8 @@ form.addEventListener("submit", async (e) => {
           body: JSON.stringify(data)
         }
       );
-      MessageSucess("Aluno(a) cadastrado com sucesso!");
+      form.reset();
+      MessageSucess("Aluno(a) cadastrado com sucesso.");
     } catch (err) {
       MediaError("Erro de conex\xE3o");
     }
