@@ -3,6 +3,9 @@ import { MessageError, MessageSucess, showEmailError } from "./status.js";
 
 const form = document.getElementById("formInfor");
 
+const name = document.getElementById("name")
+const botao = document.getElementById("botao")
+
 let alunoSala = {};
 export let conteudoPlanilha = [];
 
@@ -37,6 +40,14 @@ function atualizarContadores() {
     }
   }
 }
+
+name.addEventListener("input", () => {
+  let palavras = name.value.trim().split(/\s+/);
+  botao.disabled = palavras.length <= 2;
+  if (botao.disabled) {
+    MessageError("Coloque seu nome completo! 💗");
+  }
+});
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
