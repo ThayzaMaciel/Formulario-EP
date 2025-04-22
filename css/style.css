@@ -143,6 +143,12 @@ input[type="text"], input[type="email"] {
   display: none;
 }
 
+.campo .nameError {
+  color: red;
+  font-size: smaller;
+  display: none;
+}
+
 .campo-input {
   display: flex;
   width: fit-content;

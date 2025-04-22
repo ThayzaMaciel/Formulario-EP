@@ -39,3 +39,11 @@ export function showEmailError(isValid) {
   }
   spanError.style.display = isValid ? "none" : "block";
 }
+export function showNameError(isValid) {
+  const spanError = document.getElementById("name-error");
+  if (!spanError) {
+    console.error("Elemento com ID 'name-error' não encontrado.");
+    return;
+  }
+  spanError.style.display = isValid ? "none" : "block";
+}

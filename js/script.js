@@ -1,10 +1,15 @@
 import { salas, updateOptions } from "./domManipulation.js";
-import { MessageError, MessageSucess, showEmailError } from "./status.js";
+import {
+  MessageError,
+  MessageSucess,
+  showEmailError,
+  showNameError,
+} from "./status.js";
 
 const form = document.getElementById("formInfor");
 
-const name = document.getElementById("name")
-const botao = document.getElementById("botao")
+const name = document.getElementById("name");
+const botao = document.getElementById("botao");
 
 let alunoSala = {};
 export let conteudoPlanilha = [];
@@ -14,6 +19,11 @@ function CheckEmail(email) {
   const [localPart, domain] = email.split("@");
   if (!domain || domain != "aluno.ce.gov.br") return false;
   else return true;
+}
+function CheckName() {
+  const palavras = name.value.trim().split(/\s+/);
+  if (palavras.length <= 2) return false;
+  return true;
 }
 
 export function filterSalaLength(salas) {
@@ -43,11 +53,9 @@ function atualizarContadores() {
 
 name.addEventListener("input", () => {
   let palavras = name.value.trim().split(/\s+/);
-  botao.disabled = palavras.length <= 2;
-  botao.style.backgroundColor = botao.disabled ? "#ccc" : "#4CAF50";
-  botao.style.cursor = botao.disabled ? "not-allowed" : "pointer";
-  if (botao.disabled) {
-    MessageError("Coloque seu nome completo!");
+
+  if (palavras.length <= 2) {
+    MessageError("Coloque seu nome completo.");
   }
 });
 
@@ -59,12 +67,17 @@ form.addEventListener("submit", async (e) => {
   formData.forEach((value, key) => {
     data[key] = value;
   });
-  form.reset();
+  
   console.log(data);
 
   const checkEmail = CheckEmail(data.email);
   showEmailError(checkEmail);
   if (!checkEmail) {
+    return;
+  }
+  const checkName = CheckName(data.name);
+  showNameError(checkName);
+  if (!checkName) {
     return;
   }
 
@@ -76,7 +89,7 @@ form.addEventListener("submit", async (e) => {
       item.turma === data.turma
   );
   if (alunoJaCadastrado) {
-    MessageError("Aluno já registrado em uma das salas!");
+    MessageError("Aluno já registrado em uma das salas.");
     return;
   }
 
@@ -102,7 +115,8 @@ form.addEventListener("submit", async (e) => {
           body: JSON.stringify(data),
         }
       );
-      MessageSucess("Aluno(a) cadastrado com sucesso!");
+      form.reset(); 
+      MessageSucess("Aluno(a) cadastrado com sucesso.");
     } catch (err) {
       MediaError("Erro de conexão");
     }
