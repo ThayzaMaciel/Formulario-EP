@@ -44,8 +44,10 @@ function atualizarContadores() {
 name.addEventListener("input", () => {
   let palavras = name.value.trim().split(/\s+/);
   botao.disabled = palavras.length <= 2;
+  botao.style.backgroundColor = botao.disabled ? "#ccc" : "#4CAF50";
+  botao.style.cursor = botao.disabled ? "not-allowed" : "pointer";
   if (botao.disabled) {
-    MessageError("Coloque seu nome completo! 💗");
+    MessageError("Coloque seu nome completo!");
   }
 });
 
