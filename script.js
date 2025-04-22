@@ -22,7 +22,6 @@ __export(script_exports, {
   conteudoPlanilha: () => conteudoPlanilha,
   filterSalaLength: () => filterSalaLength
 });
-module.exports = __toCommonJS(script_exports);
 
 // src/domManipulation.js
 var salas = [
