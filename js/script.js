@@ -159,7 +159,7 @@ async function loopAtualizacao() {
   setInterval(async () => {
     await getData();
     const salasComVagasOcupadas = filterSalaLength(salas);
-    updateOptions(salasComVagasOcupadas); // Executa a cada 10 segundos
+     // updateOptions(salasComVagasOcupadas); essa é a linha que tava atualizando
   }, 1000);
 }
 

@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
 setInterval(()=> {
     salas = filterSalaLength(salas);
-    updateOptions(salas)
+   //aqui tbm tinha um update options
 }, 1000)
 setTimeout(() => {
   salas = filterSalaLength(salas);
