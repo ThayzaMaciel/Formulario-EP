@@ -28,7 +28,7 @@ var salas = [
   { nome: "Sa\xFAde: Enfermagem e Nutri\xE7\xE3o", vagas: 36 },
   { nome: "Sa\xFAde: Psicologia e Fisioterapia", vagas: 35 },
   { nome: "Sa\xFAde: Odontologia e Farm\xE1cia", vagas: 35 },
-  { nome: "Sa\xFAde: Medicina", vagas: 143 },
+  { nome: "Sa\xFAde: Medicina", vagas: 107 },
   // Limite especial
   { nome: "Engenharia Civil e Arquitetura", vagas: 35 },
   { nome: "Administra\xE7\xE3o e Contabilidade", vagas: 35 },
@@ -37,7 +37,8 @@ var salas = [
   { nome: "Comunica\xE7\xE3o e Marketing", vagas: 35 },
   { nome: "Empreendedorismo", vagas: 35 },
   { nome: "Educa\xE7\xE3o e Servi\xE7o Social", vagas: 35 },
-  { nome: "TI - Tecnologia da Informa\xE7\xE3o", vagas: 35 }
+  { nome: "TI - Tecnologia da Informa\xE7\xE3o", vagas: 35 },
+  { nome: "Medicina Veterin\xE1ria", vagas: 35 }
 ];
 function appendOptions() {
   let select = document.getElementById("sala");
