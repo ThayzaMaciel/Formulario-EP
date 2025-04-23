@@ -67,6 +67,8 @@ form.addEventListener("submit", async (e) => {
   formData.forEach((value, key) => {
     data[key] = value;
   });
+
+  await getData();
   
   console.log(data);
 
@@ -96,10 +98,16 @@ form.addEventListener("submit", async (e) => {
   if (!alunoSala[data.sala]) {
     alunoSala[data.sala] = [];
   }
+
   // Verifica se a sala já tem 35 alunos
   const AlunoNaSala = conteudoPlanilha.filter(
     (item) => item.sala == data.sala
   ).length;
+  if (AlunoNaSala >= 35) {
+    MessageError("Essa sala já está cheia. Atualize a página para ver as vagas disponiveis.");
+    form.reset()
+    return;
+  }
 
   // se a sala tiver menos de 35 alunos, adiciona o aluno
   if (alunoSala[data.sala].length < 35) {
@@ -117,6 +125,13 @@ form.addEventListener("submit", async (e) => {
       );
       form.reset(); 
       MessageSucess("Aluno(a) cadastrado com sucesso.");
+
+      await getData();
+      const salasComVagasOcupadas = filterSalaLength(salas);
+      updateOptions(salasComVagasOcupadas);
+      atualizarContadores();
+
+
     } catch (err) {
       MediaError("Erro de conexão");
     }
@@ -124,6 +139,7 @@ form.addEventListener("submit", async (e) => {
 
   alunoSala[data.sala].push(data.name);
   atualizarContadores();
+
 });
 
 async function getData() {
@@ -159,7 +175,7 @@ async function loopAtualizacao() {
   setInterval(async () => {
     await getData();
     const salasComVagasOcupadas = filterSalaLength(salas);
-     // updateOptions(salasComVagasOcupadas); essa é a linha que tava atualizando
+    // updateOptions(salasComVagasOcupadas); essa é a linha que tava atualizando
   }, 1000);
 }
 
