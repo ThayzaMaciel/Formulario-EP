@@ -4,7 +4,7 @@ export let salas = [
   { nome: "Saúde: Enfermagem e Nutrição", vagas: 36 },
   { nome: "Saúde: Psicologia e Fisioterapia", vagas: 35 },
   { nome: "Saúde: Odontologia e Farmácia", vagas: 35 },
-  { nome: "Saúde: Medicina", vagas: 143 }, // Limite especial
+  { nome: "Saúde: Medicina", vagas: 107 }, // Limite especial
   { nome: "Engenharia Civil e Arquitetura", vagas: 35 },
   { nome: "Administração e Contabilidade", vagas: 35 },
   { nome: "Carreiras Militares: Policiais e Bombeiros", vagas: 35 },
@@ -13,6 +13,7 @@ export let salas = [
   { nome: "Empreendedorismo", vagas: 35 },
   { nome: "Educação e Serviço Social", vagas: 35 },
   { nome: "TI - Tecnologia da Informação", vagas: 35 },
+  { nome: "Medicina Veterinária", vagas: 35 },
 ];
 
 function appendOptions(){
