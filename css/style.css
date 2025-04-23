@@ -214,6 +214,9 @@ button:hover {
 }
 
 @media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
   .Logo-SEDUC {
     flex-direction: column;
     padding: 10px;

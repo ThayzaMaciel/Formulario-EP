@@ -1,18 +1,18 @@
 import { conteudoPlanilha, filterSalaLength } from "./script.js";
 
 export let salas = [
-  { nome: "Saúde: Enfermagem e Nutrição", vagas: 36 },
-  { nome: "Saúde: Psicologia e Fisioterapia", vagas: 35 },
-  { nome: "Saúde: Odontologia e Farmácia", vagas: 35 },
-  { nome: "Saúde: Medicina", vagas: 107 }, // Limite especial
-  { nome: "Engenharia Civil e Arquitetura", vagas: 35 },
+  { nome: "Enfermagem e Nutrição", vagas: 36 },
+  { nome: "Psicologia e Fisioterapia", vagas: 35 },
+  { nome: "Odontologia e Farmácia", vagas: 35 },
+  { nome: "Medicina", vagas: 107 }, // Limite especial
+  { nome: "Engenharia Civil e Engenharia de energias", vagas: 35 },
   { nome: "Administração e Contabilidade", vagas: 35 },
   { nome: "Carreiras Militares: Policiais e Bombeiros", vagas: 35 },
   { nome: "Direito", vagas: 35 },
   { nome: "Comunicação e Marketing", vagas: 35 },
   { nome: "Empreendedorismo", vagas: 35 },
   { nome: "Educação e Serviço Social", vagas: 35 },
-  { nome: "TI - Tecnologia da Informação", vagas: 35 },
+  { nome: "Tecnologia da Informação", vagas: 35 },
   { nome: "Medicina Veterinária", vagas: 35 },
 ];
 
@@ -31,7 +31,7 @@ export function updateOptions(salas){
     salas.forEach((sala)=> {
         const option = document.getElementById(sala.nome)
         if(sala.vagas <= sala.vagasOcupadas) option.disabled = true
-        return option.textContent = `${sala.nome} - ${sala.vagasOcupadas}/${sala.vagas}`;
+         option.textContent = `${sala.nome} - ${sala.vagasOcupadas}/${sala.vagas}`;
     })
 }
 
