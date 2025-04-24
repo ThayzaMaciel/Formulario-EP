@@ -103,7 +103,7 @@ form.addEventListener("submit", async (e) => {
   const AlunoNaSala = conteudoPlanilha.filter(
     (item) => item.sala == data.sala
   ).length;
-  if (AlunoNaSala >= 35) {
+  if (AlunoNaSala >= salas.find((sala) => sala.nome == data.sala).vagas) {
     MessageError("Essa sala já está cheia. Atualize a página para ver as vagas disponiveis.");
     form.reset()
     return;
