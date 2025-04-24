@@ -25,20 +25,20 @@ __export(script_exports, {
 
 // src/domManipulation.js
 var salas = [
-  { nome: "Sa\xFAde: Enfermagem e Nutri\xE7\xE3o", vagas: 36 },
-  { nome: "Sa\xFAde: Psicologia e Fisioterapia", vagas: 35 },
-  { nome: "Sa\xFAde: Odontologia e Farm\xE1cia", vagas: 35 },
-  { nome: "Sa\xFAde: Medicina", vagas: 107 },
+  { nome: "Enfermagem e Nutri\xE7\xE3o", vagas: 36 },
+  { nome: "Psicologia e Fisioterapia", vagas: 35 },
+  { nome: "Odontologia e Farm\xE1cia", vagas: 35 },
+  { nome: "Medicina Veterin\xE1ria", vagas: 35 },
+  { nome: "Medicina", vagas: 107 },
   // Limite especial
-  { nome: "Engenharia Civil e Arquitetura", vagas: 35 },
+  { nome: "Engenharia Civil e Engenharia de energias", vagas: 35 },
   { nome: "Administra\xE7\xE3o e Contabilidade", vagas: 35 },
   { nome: "Carreiras Militares: Policiais e Bombeiros", vagas: 35 },
   { nome: "Direito", vagas: 35 },
   { nome: "Comunica\xE7\xE3o e Marketing", vagas: 35 },
   { nome: "Empreendedorismo", vagas: 35 },
   { nome: "Educa\xE7\xE3o e Servi\xE7o Social", vagas: 35 },
-  { nome: "TI - Tecnologia da Informa\xE7\xE3o", vagas: 35 },
-  { nome: "Medicina Veterin\xE1ria", vagas: 35 }
+  { nome: "Tecnologia da Informa\xE7\xE3o", vagas: 35 }
 ];
 function appendOptions() {
   let select = document.getElementById("sala");
@@ -54,14 +54,13 @@ function updateOptions(salas2) {
   salas2.forEach((sala) => {
     const option = document.getElementById(sala.nome);
     if (sala.vagas <= sala.vagasOcupadas) option.disabled = true;
-    return option.textContent = `${sala.nome} - ${sala.vagasOcupadas}/${sala.vagas}`;
+    option.textContent = `${sala.nome} - ${sala.vagasOcupadas}/${sala.vagas}`;
   });
 }
 document.addEventListener("DOMContentLoaded", () => {
 });
 setInterval(() => {
   salas = filterSalaLength(salas);
-  updateOptions(salas);
 }, 1e3);
 setTimeout(() => {
   salas = filterSalaLength(salas);
@@ -160,6 +159,7 @@ form.addEventListener("submit", async (e) => {
   formData.forEach((value, key) => {
     data[key] = value;
   });
+  await getData();
   console.log(data);
   const checkEmail = CheckEmail(data.email);
   showEmailError(checkEmail);
@@ -184,6 +184,11 @@ form.addEventListener("submit", async (e) => {
   const AlunoNaSala = conteudoPlanilha.filter(
     (item) => item.sala == data.sala
   ).length;
+  if (AlunoNaSala >= salas.find((sala) => sala.nome == data.sala).vagas) {
+    MessageError("Essa sala j\xE1 est\xE1 cheia. Atualize a p\xE1gina para ver as vagas disponiveis.");
+    form.reset();
+    return;
+  }
   if (alunoSala[data.sala].length < 35) {
     try {
       const response = await fetch(
@@ -199,6 +204,10 @@ form.addEventListener("submit", async (e) => {
       );
       form.reset();
       MessageSucess("Aluno(a) cadastrado com sucesso.");
+      await getData();
+      const salasComVagasOcupadas = filterSalaLength(salas);
+      updateOptions(salasComVagasOcupadas);
+      atualizarContadores();
     } catch (err) {
       MediaError("Erro de conex\xE3o");
     }
@@ -234,7 +243,6 @@ async function loopAtualizacao() {
   setInterval(async () => {
     await getData();
     const salasComVagasOcupadas = filterSalaLength(salas);
-    updateOptions(salasComVagasOcupadas);
   }, 1e3);
 }
 document.addEventListener("DOMContentLoaded", loopAtualizacao);
