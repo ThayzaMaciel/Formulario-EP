@@ -69,7 +69,7 @@ form.addEventListener("submit", async (e) => {
   formData.forEach((value, key) => {
     data[key] = value;
   });
-  form.reset();
+  
   await getData();
   
   console.log(data);
@@ -80,11 +80,12 @@ form.addEventListener("submit", async (e) => {
     return;
   }
   const checkName = CheckName(data.name);
+  console.log(checkName)
   showNameError(checkName);
   if (!checkName) {
     return;
   }
-
+  form.reset();
   // Verifica se o aluno já está cadastrado na sala
   const alunoJaCadastrado = conteudoPlanilha.some(
     (item) =>
@@ -135,6 +136,7 @@ form.addEventListener("submit", async (e) => {
 
 
     } catch (err) {
+      console.log(err)
       MediaError("Erro de conexão");
     }
   }
