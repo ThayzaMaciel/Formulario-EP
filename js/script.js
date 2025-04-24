@@ -61,7 +61,7 @@ name.addEventListener("input", () => {
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-  
+
   getData();
   const formData = new FormData(form);
 
@@ -69,9 +69,9 @@ form.addEventListener("submit", async (e) => {
   formData.forEach((value, key) => {
     data[key] = value;
   });
-  
+
   await getData();
-  
+
   console.log(data);
 
   const checkEmail = CheckEmail(data.email);
@@ -80,7 +80,7 @@ form.addEventListener("submit", async (e) => {
     return;
   }
   const checkName = CheckName(data.name);
-  console.log(checkName)
+  console.log(checkName);
   showNameError(checkName);
   if (!checkName) {
     return;
@@ -89,9 +89,9 @@ form.addEventListener("submit", async (e) => {
   // Verifica se o aluno já está cadastrado na sala
   const alunoJaCadastrado = conteudoPlanilha.some(
     (item) =>
-      item.name === data.name &&
-      item.serie === data.serie &&
-      item.turma === data.turma
+      item.name.toLowerCase() === data.name.toLowerCase() &&
+      item.serie.toLowerCase() === data.serie.toLowerCase() &&
+      item.turma.toLowerCase() === data.turma.toLowerCase()
   );
   if (alunoJaCadastrado) {
     MessageError("Aluno já registrado em uma das salas.");
@@ -107,8 +107,10 @@ form.addEventListener("submit", async (e) => {
     (item) => item.sala == data.sala
   ).length;
   if (AlunoNaSala >= salas.find((sala) => sala.nome == data.sala).vagas) {
-    MessageError("Essa sala já está cheia. Atualize a página para ver as vagas disponiveis.");
-    form.reset()
+    MessageError(
+      "Essa sala já está cheia. Atualize a página para ver as vagas disponiveis."
+    );
+    form.reset();
     return;
   }
 
@@ -126,24 +128,21 @@ form.addEventListener("submit", async (e) => {
           body: JSON.stringify(data),
         }
       );
-      form.reset(); 
+      form.reset();
       MessageSucess("Aluno(a) cadastrado com sucesso.");
 
       await getData();
       const salasComVagasOcupadas = filterSalaLength(salas);
       updateOptions(salasComVagasOcupadas);
       atualizarContadores();
-
-
     } catch (err) {
-      console.log(err)
+      console.log(err);
       MediaError("Erro de conexão");
     }
   }
 
   alunoSala[data.sala].push(data.name);
   atualizarContadores();
-
 });
 
 async function getData() {
@@ -152,7 +151,7 @@ async function getData() {
   const RANGE = "Sheet1!A:D";
   //URL de conexão com a planilha para o GET usando a API KEY
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE}?key=${API_KEY}`;
-  console.log("Funcao chamada")
+  console.log("Funcao chamada");
 
   try {
     const res = await fetch(url);
@@ -176,7 +175,7 @@ function formatData(values) {
 }
 
 async function loopAtualizacao() {
-   // Executa imediatamente
+  // Executa imediatamente
   /*setInterval(async () => {
     await getData();
     const salasComVagasOcupadas = filterSalaLength(salas);
