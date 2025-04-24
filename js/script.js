@@ -61,6 +61,7 @@ name.addEventListener("input", () => {
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
+  
   getData();
   const formData = new FormData(form);
 
@@ -68,7 +69,7 @@ form.addEventListener("submit", async (e) => {
   formData.forEach((value, key) => {
     data[key] = value;
   });
-
+  form.reset();
   await getData();
   
   console.log(data);
