@@ -61,6 +61,7 @@ name.addEventListener("input", () => {
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
+  getData();
   const formData = new FormData(form);
 
   const data = {};
@@ -148,6 +149,7 @@ async function getData() {
   const RANGE = "Sheet1!A:D";
   //URL de conexão com a planilha para o GET usando a API KEY
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE}?key=${API_KEY}`;
+  console.log("Funcao chamada")
 
   try {
     const res = await fetch(url);
@@ -171,13 +173,13 @@ function formatData(values) {
 }
 
 async function loopAtualizacao() {
-  await getData(); // Executa imediatamente
-  setInterval(async () => {
+   // Executa imediatamente
+  /*setInterval(async () => {
     await getData();
     const salasComVagasOcupadas = filterSalaLength(salas);
     // updateOptions(salasComVagasOcupadas); essa é a linha que tava atualizando
-  }, 1000);
+  }, 1000);*/
 }
 
 // Chama isso quando o DOM estiver pronto:
-document.addEventListener("DOMContentLoaded", loopAtualizacao);
+document.addEventListener("DOMContentLoaded", getData);
